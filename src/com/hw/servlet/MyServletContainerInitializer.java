@@ -2,10 +2,9 @@ package com.hw.servlet;
 
 import com.hw.service.HelloService;
 
-import javax.servlet.ServletContainerInitializer;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.HandlesTypes;
+import java.util.EnumSet;
 import java.util.Set;
 
 /**
@@ -23,5 +22,13 @@ public class MyServletContainerInitializer implements ServletContainerInitialize
         for (Class<?> clazz : set) {
             System.out.println(clazz);
         }
+
+        ServletRegistration.Dynamic servlet = servletContext.addServlet("userServlet", new UserServlet());
+        servlet.addMapping("/user");
+
+        servletContext.addListener(UserListener.class);
+
+        FilterRegistration.Dynamic filer = servletContext.addFilter("userFiler", UserFilter.class);
+        filer.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
     }
 }
