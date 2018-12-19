@@ -22,7 +22,19 @@ public class HelloServlet extends HttpServlet {
 
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        response.getWriter().write("hello....");
-        System.out.println(request.getRequestURI());
+//        response.getWriter().write("hello....");
+        System.out.println(Thread.currentThread() + "start...");
+        try {
+            sayHello();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread() + "end...");
+//        System.out.println(request.getRequestURI());
+    }
+
+    public void sayHello() throws InterruptedException {
+        System.out.println(Thread.currentThread() + "processing...");
+        Thread.sleep(3000);
     }
 }
